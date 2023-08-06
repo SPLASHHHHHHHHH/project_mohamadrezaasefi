@@ -1,0 +1,38 @@
+﻿@using IdentitySample.Mvc.Models;
+
+@model IEnumerable<Prescription>;
+
+<style>
+    .item {
+        padding: 10px;
+        border: 1px solid black;
+        margin-top: 10px;
+        border-radius: 5px;
+        background-color: #c1c1c1;
+        width: 100% !important;
+    }
+</style>
+
+
+<a href="/Prescription/Create" class="btn mt-5 btn-primary">ایجاد نسخه</a>
+
+
+@foreach (var item in Model)
+{
+    <row>
+        <div class="card item" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@item.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss") ایجاد شده در</h5>
+                <h5 class="card-title">موضوع : @item.Title</h5>
+                <h5 class="card-title">کدملی دامدار : @item.NationalCode</h5>
+                <p class="card-text">توضیحات : @item.Description</p>
+                @if (item.MedicList?.ToArray() != null)
+                {
+                    <p>@string.Join("," ,item.MedicList?.ToArray())</p>
+                }
+                <a href="/Prescription/Delete?id=@item.Id" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </row>
+}
+

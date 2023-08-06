@@ -1,0 +1,77 @@
+﻿@using IdentitySample.Mvc.Models;
+
+@model Prescription;
+
+
+<div class="row">
+    <div class="col-md-8">
+        <section>
+            <form asp-controller="Prescription" onsubmit="return validateCodeMeli(document.getElementById('NationalCode').value)" asp-action="Create" method="post" class="form-horizontal" role="form">
+                <h4>ایجاد نسخه</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NationalCode" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="NationalCode" class="form-control" />
+                        <span asp-validation-for="NationalCode" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">دارو ها</label>
+                    <div class="col-md-10">
+                        <input name="search" onkeyup="searchMedic(this.value)" type="text" placeholder="جستجو ..." />
+                        <br />
+                        <select id="MedicList_id" name="dd"  multiple style="height:100px;width:50%">
+                            <option id="1" value="مادورامایسین ">مادورامایسین</option>
+                            <option id="2" value="انروفلوکساسین">	انروفلوکساسین</option>
+                            <option id="3" value="	داکسی سایکلین">	داکسی سایکلین</option>
+                            <option id="4" value="اکسی تتراسیکلین">	اکسی تتراسیکلین</option>
+                            <option id="5" value="متیونین ">متیونین </option>
+                            <option id="6" value="ال کارنیتین ">	ال کارنیتین </option>
+                            <option id="7" value="مولتی ویتامین ">	مولتی ویتامین </option>
+                            <option id="8" value="سولفادیازین ">سولفادیازین </option>
+                        </select>
+                        <br/>
+                        <br/>
+
+                        <button onclick="addNewInput()" type="button" >افزودن توضیحات داروها</button>
+                        <br/>
+                        <div id="container">
+
+                        </div>
+
+                        <select name="MedicList" multiple id="MedicListId" style="visibility: hidden;">
+
+                        </select>
+
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-default">ایجاد</button>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+    </div>
+</div>
+
+
+

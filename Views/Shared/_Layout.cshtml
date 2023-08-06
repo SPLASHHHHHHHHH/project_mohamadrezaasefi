@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/" class="btn btn-primary">خانه</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                   
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; 2023 - نسخه داری</p>
+            </footer>
+        </div>
+
+        <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+
+        @RenderSection("scripts", required: false)
+    <script>
+        function searchMedic(value) {
+            var nodes = document.getElementById('MedicList_id').childNodes;
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].nodeName.toLowerCase() == 'option') {
+                    if (nodes[i].value.includes(value)) {
+                        nodes[i].style.display = "block";
+                    } else {
+                        nodes[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function checkCodeMeli(code) {
+
+            var L = code.length;
+
+            if (L < 8 || parseInt(code, 10) == 0) return false;
+            code = ('0000' + code).substr(L + 4 - 10);
+            if (parseInt(code.substr(3, 6), 10) == 0) return false;
+            var c = parseInt(code.substr(9, 1), 10);
+            var s = 0;
+            for (var i = 0; i < 9; i++)
+                s += parseInt(code.substr(i, 1), 10) * (10 - i);
+            s = s % 11;
+            return (s < 2 && c == s) || (s >= 2 && c == (11 - s));
+            return true;
+        }
+
+        function validateCodeMeli(code){
+
+            createSelect()
+            
+            if(checkCodeMeli(code)){
+                return true
+            }else{
+                alert("کدملی وارد شده اشتباه است")
+                return false
+            }
+        }
+
+    </script>
+    <script>
+    function addNewInput(){
+        var x = document.getElementById('MedicList_id');
+        var input = ""
+        for (var i = 0; i < x.length; i++) {
+            if(x[i].selected){
+            var txt =x[i].text;
+            var id = x[i].id
+            input += `<input class="desc" id='${id}' name="${txt}" style="margin:5px;width:50%" type='text' placeholder='توضیحات ${txt} '/><br/>`
+            }
+         }
+         document.getElementById("container").innerHTML = ""
+         document.getElementById("container").innerHTML = input
+    }
+    function createSelect(){
+        var x = document.getElementsByClassName('desc');
+        var options = ""
+        for (var i = 0; i < x.length; i++) {
+            var name =x[i].name;
+            var value = x[i].value
+            options += `<option value="(${value})${name}" selected>${name}</option>`
+         }
+         document.getElementById("MedicListId").innerHTML = ""
+         document.getElementById("MedicListId").innerHTML = options
+
+    }
+</script>
+    </body>
+</html>
